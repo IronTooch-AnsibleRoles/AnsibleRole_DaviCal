@@ -8,18 +8,18 @@
   ansible.builtin.include_tasks:
     file: "./base_workflow/02_create_serviceuser.yml"
 
-- name: Download and Install my_app
+- name: Download and Install davical
   ansible.builtin.include_tasks:
     file: "./base_workflow/03_install_app.yml"
 
-- name: Configure Environment
-  ansible.builtin.include_tasks:
-    file: "./base_workflow/04_configure_app.yml"
+# - name: Configure Environment
+#   ansible.builtin.include_tasks:
+#     file: "./base_workflow/04_configure_app.yml"
 
-- name: Deploy Services
-  ansible.builtin.include_tasks:
-    file: "./base_workflow/05_deploy_services.yml"
+# - name: Deploy Services
+#   ansible.builtin.include_tasks:
+#     file: "./base_workflow/05_deploy_services.yml"
 
-- name: Deploy SSL overrides
-  ansible.builtin.include_tasks:
-    file: "./base_workflow/06_deploy_SSL.yml"
+# - name: Deploy SSL overrides
+#   ansible.builtin.include_tasks:
+#     file: "./base_workflow/06_deploy_SSL.yml"

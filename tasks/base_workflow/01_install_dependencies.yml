@@ -5,17 +5,27 @@
       - acl
       - sudo
       - python3-pexpect
+      - libyaml-perl
+      - libdbd-pg-perl
+      - libdbi-perl
+      - php
+      - php-pgsql
+      - php-imap
+      - php-curl
+      - php-cgi
+      - php-xml
+      - nginx
     state: present
   register: apt_status
   until: apt_status is success
   delay: 6
   retries: 10
 
-- name: Create temporary build directory for Guac
+- name: Create temporary build directory for Davical
   ansible.builtin.tempfile:
     state: directory
-  register: my_app_temp_dir_raw
+  register: davical_temp_dir_raw
 
-- name: Play Temporary Path
+- name: Set Temporary Path
   ansible.builtin.set_fact:
-    my_app_temp_dir: "{{ my_app_temp_dir_raw.path }}"
+    davical_temp_dir: "{{ davical_temp_dir_raw.path }}"

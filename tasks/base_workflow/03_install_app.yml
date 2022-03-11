@@ -1,28 +1,40 @@
 ---
-- name: Create my_app directory
+- name: Create davical directory
   ansible.builtin.file:
-    path: "{{ my_app_dir }}"
+    path: "{{ davical_dir }}"
     state: directory
-    owner: "{{ my_app_service_user }}"
-    group: "{{ my_app_service_user }}"
+    owner: "{{ davical_service_user }}"
+    group: "{{ davical_service_user }}"
     mode: '700'
 
-- name: Get Installer
+- name: Get Davical Zip
   ansible.builtin.get_url:
-    url: "{{ my_app_url }}"
-    dest: "{{ my_app_dir }}/{{ my_app_install_program }}"
+    url: "{{ davical_url }}"
+    dest: "{{ davical_temp_dir }}/{{ davical_zip_filename }}"
     force: true
-    owner: "{{ my_app_service_user }}"
-    group: "{{ my_app_service_user }}"
+    owner: "{{ davical_service_user }}"
+    group: "{{ davical_service_user }}"
     mode: "0700"
     validate_certs: "true"
 
-- name: Install my_app
-  become_user: "{{ my_app_service_user }}"
-  ansible.builtin.expect:
-    command: "{{ my_app_install_command }}"
-    chdir: "{{ my_app_dir }}"
-    creates: "{{ my_app_install_artifact }}"
-    responses:
-      Question 1 String: "{{ external_domain }}"
-      Question 2 String: "n"
+- name: Unzip Davical
+  ansible.builtin.unarchive:
+    src: "{{ davical_temp_dir }}/{{ davical_zip_filename }}"
+    dest: "{{ davical_dir }}"
+    remote_src: true
+
+- name: Get Davical AWL Zip
+  ansible.builtin.get_url:
+    url: "{{ davical_awl_url }}"
+    dest: "{{ davical_temp_dir }}/{{ davical_awl_zip_filename }}"
+    force: true
+    owner: "{{ davical_service_user }}"
+    group: "{{ davical_service_user }}"
+    mode: "0700"
+    validate_certs: "true"
+
+- name: Unzip Davical
+  ansible.builtin.unarchive:
+    src: "{{ davical_temp_dir }}/{{ davical_awl_zip_filename }}"
+    dest: "{{ davical_dir }}"
+    remote_src: true
